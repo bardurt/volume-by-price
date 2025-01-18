@@ -66,16 +66,15 @@ def calculate_monthly_changes(rows):
     monthly_changes = defaultdict(float)
 
     for month_key, entries in monthly_data.items():
-        entries.sort(key=lambda x: x[0])  # Sort by date
+        entries.sort(key=lambda x: x[0])
         first_day_open = entries[0][1]
         last_day_close = entries[-1][2]
         monthly_changes[month_key] = last_day_close - first_day_open
 
-    # Aggregate by month across years
     aggregated_changes = defaultdict(list)
 
     for month_key, change in monthly_changes.items():
-        month = month_key.split("-")[1]  # Extract the month part
+        month = month_key.split("-")[1]
         aggregated_changes[month].append(change)
 
     average_monthly_changes = {
