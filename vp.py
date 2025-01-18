@@ -62,6 +62,7 @@ def plot_results(price_dict):
     plt.title('Volume by Price')
     plt.suptitle(f'{symbol}', fontsize=18)
     plt.grid(True)
+    plt.gca().xaxis.set_ticklabels([])
     plt.tight_layout()
     plt.show()
 
