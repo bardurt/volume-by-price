@@ -1,3 +1,7 @@
+# Python Script to Analyze Stock Data
+# This script calculates and visualizes Volume by Price for a given asset, allowing users to identify price levels by volume.
+# Additionally, it computes and plots the average monthly percentage change in price over the years.
+
 import requests
 import csv
 import time
@@ -20,7 +24,7 @@ def fetch_data(symbol, api_key):
         print(f"Error fetching data: {e}")
         return []
 
-def process_data(rows):
+def cacluate_volume_by_price(rows):
     price_dict = defaultdict(int)
     total_volume = 0
 
@@ -50,22 +54,36 @@ def calculate_monthly_changes(rows):
     for row in rows:
         try:
             date = datetime.strptime(row[0], "%Y-%m-%d")
+            open_price = float(row[1])
             close_price = float(row[4])
 
-            month_key = date.strftime("%m")
-            monthly_data[month_key].append(close_price)
+            month_key = date.strftime("%Y-%m")
+            monthly_data[month_key].append((date, open_price, close_price))
 
         except ValueError:
             continue
 
-    monthly_changes = {}
+    monthly_changes = defaultdict(float)
 
-    for month, prices in monthly_data.items():
-        if len(prices) > 1:
-            monthly_avg_change = sum([(prices[i] - prices[i - 1]) / prices[i - 1] * 100 for i in range(1, len(prices))]) / (len(prices) - 1)
-            monthly_changes[month] = monthly_avg_change
+    for month_key, entries in monthly_data.items():
+        entries.sort(key=lambda x: x[0])  # Sort by date
+        first_day_open = entries[0][1]
+        last_day_close = entries[-1][2]
+        monthly_changes[month_key] = last_day_close - first_day_open
 
-    return monthly_changes
+    # Aggregate by month across years
+    aggregated_changes = defaultdict(list)
+
+    for month_key, change in monthly_changes.items():
+        month = month_key.split("-")[1]  # Extract the month part
+        aggregated_changes[month].append(change)
+
+    average_monthly_changes = {
+        month: sum(changes) / len(changes)
+        for month, changes in aggregated_changes.items()
+    }
+
+    return average_monthly_changes
 
 def plot_results(price_dict, monthly_changes, symbol):
     fig, axes = plt.subplots(1, 2, figsize=(20, 6))
@@ -75,8 +93,8 @@ def plot_results(price_dict, monthly_changes, symbol):
     sorted_prices, sorted_volumes = zip(*sorted(zip(prices, weighted_volumes)))
 
     axes[0].barh(sorted_prices, sorted_volumes, color='blue')
-    axes[0].set_ylabel('Price')
-    axes[0].set_xlabel('Volume')
+    axes[0].set_ylabel('Price Levels')
+    axes[0].set_xlabel('Weighted Volume')
     axes[0].set_title('Volume by Price')
     axes[0].grid(True)
     axes[0].xaxis.set_ticklabels([])
@@ -84,10 +102,10 @@ def plot_results(price_dict, monthly_changes, symbol):
     months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     changes = [monthly_changes.get(f"{i:02}", 0) for i in range(1, 13)]
 
-    axes[1].bar(months, changes, color='blue')
-    axes[1].set_ylabel('Average Monthly Change (%)')
+    axes[1].bar(months, changes, color='orange')
+    axes[1].set_ylabel('Average Monthly Change')
     axes[1].set_xlabel('Month')
-    axes[1].set_title('Average Monthly Change in Percentage')
+    axes[1].set_title('Average Monthly Change in Price Over Years')
     axes[1].grid(True)
 
     plt.tight_layout()
@@ -101,12 +119,13 @@ def start(symbol, api_key):
     if not rows:
         return
 
-    price_dict = process_data(rows)
+    price_dict = cacluate_volume_by_price(rows)
     monthly_changes = calculate_monthly_changes(rows)
-    plot_results(price_dict, monthly_changes, symbol)
-
+    
     end_time = time.time() - start_time
-    print(f"Time to run: {end_time:.2f} seconds")
+    print(f"Time to process data: {end_time:.2f} seconds")
+    
+    plot_results(price_dict, monthly_changes, symbol)
 
 if __name__ == "__main__":
     import sys
