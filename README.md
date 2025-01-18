@@ -1,5 +1,8 @@
 # volume-by-price
-Python Script to find Volume by Price for an asset
+Python Script to Analyze Stock Data
+
+This script calculates and visualizes Volume by Price for a given asset, allowing users to identify price levels by volume.
+Additionally, it computes and plots the average monthly percentage change in price over the years.
 
 ![Volume By Price](images/preview.png)
 
