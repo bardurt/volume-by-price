@@ -1,5 +1,8 @@
 # volume-by-price
-Python Script to find Volume by Price for an asset
+Python Script to Analyze Stock Data
+
+This script calculates and visualizes Volume by Price for a given asset, allowing users to identify price levels by volume.
+Additionally, it computes and plots the average monthly percentage change in price over the years.
 
 ![Volume By Price](images/preview.png)
 
@@ -23,4 +26,4 @@ The first argument is the symbol to analyze: TSLA, AAPL, MSFT etc. The second ar
 
 Run the script by executing the below command in bash (make sure to use your api key, the one in the sample is not real)
 
-```python stock_data.py AAPL 21321asdavvv```
+```python vp.py AAPL 21321asdavvv```
