@@ -26,4 +26,4 @@ The first argument is the symbol to analyze: TSLA, AAPL, MSFT etc. The second ar
 
 Run the script by executing the below command in bash (make sure to use your api key, the one in the sample is not real)
 
-```python stock_data.py AAPL 21321asdavvv```
+```python vp.py AAPL 21321asdavvv```
