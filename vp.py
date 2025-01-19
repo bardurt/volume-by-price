@@ -15,8 +15,7 @@ LOW_WEIGHT = 0.2
 CLOSE_WEIGHT = 0.25
 
 def fetch_data_av(symbol, api_key):
-    #url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}&outputsize=full&datatype=csv"
-    url = "https://raw.githubusercontent.com/bardurt/volume-by-price/refs/heads/main/daily_riot%20(1).csv"
+    url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}&outputsize=full&datatype=csv"
     try:
         response = requests.get(url)
         response.raise_for_status()
@@ -37,7 +36,6 @@ def fetch_data_crypto(symbol):
         csv_data = StringIO(response.text)
         
         df = pd.read_csv(csv_data, skiprows=1)
-        
      
         df['date'] = pd.to_datetime(df['date']).dt.date.astype(str)
         
