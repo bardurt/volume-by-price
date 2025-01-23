@@ -203,10 +203,18 @@ def start(symbol, api_key):
     
     print("fetched ", len(rows), " rows")
 
+    print("Preparing Volume By Price")
     price_dict = calculate_volume_by_price(rows)
-    monthly_changes = calculate_monthly_changes(rows)
-    daily_changes = calculate_daily_percentage_changes(rows)
+    print("Volume By Price ready!")
 
+    print("Preparing Monthly Bias")
+    monthly_changes = calculate_monthly_changes(rows)
+    print("Monthly Bias ready")
+
+    print("Preparing Seasonality")
+    daily_changes = calculate_daily_percentage_changes(rows)
+    print("Seasonality ready")
+    
     end_time = time.time() - start_time
     print(f"Time to process data: {end_time:.2f} seconds")
 
