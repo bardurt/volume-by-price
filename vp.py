@@ -183,6 +183,7 @@ def plot_results(price_dict, monthly_changes, daily_changes, total_change, symbo
     ax1.barh(sorted_prices, sorted_volumes, color='blue')
     ax1.set_ylabel('Price')
     ax1.set_title('Volume by Price')
+    ax1.set_xticks([]) 
     ax1.grid(True)
 
     canvas1 = FigureCanvasTkAgg(fig1, master=tab1)
@@ -208,10 +209,11 @@ def plot_results(price_dict, monthly_changes, daily_changes, total_change, symbo
     canvas2.get_tk_widget().pack(fill="both", expand=True)
     canvas2.draw()
 
+    # Tab 3: Seasonality
     tab3 = ttk.Frame(notebook)
     notebook.add(tab3, text="Seasonality")
 
-    fig3 = plt.Figure(figsize=(8, 6))
+    fig3 = plt.Figure(figsize=(10, 6))  # Increase figure width for better spacing
     ax3 = fig3.add_subplot(111)
 
     for interval, changes in daily_changes.items():
@@ -219,8 +221,18 @@ def plot_results(price_dict, monthly_changes, daily_changes, total_change, symbo
 
     ax3.set_ylabel('%')
     ax3.set_xlabel('Day of Year')
-    ax3.legend(loc='upper left')
     ax3.grid(True)
+
+    # Move legend to the left side and ensure full visibility
+    ax3.legend(
+        loc='center left',
+        bbox_to_anchor=(-0.2, 0.5),  # Adjust position to make space for the legend
+        title="Year",
+        frameon=False,
+        fontsize='small',  # Optional: Reduce font size for better fit
+    )
+
+    fig3.tight_layout(pad=1)  # Add padding to avoid clipping
 
     canvas3 = FigureCanvasTkAgg(fig3, master=tab3)
     canvas3.get_tk_widget().pack(fill="both", expand=True)
@@ -283,6 +295,7 @@ def start(symbol, api_key):
     end_time = time.time() - start_time
     print(f"Time to process data: {end_time:.2f} seconds")
 
+    print("Preparing chats...")
     plot_results(price_dict, monthly_changes, daily_changes, total_change, symbol)
 
 if __name__ == "__main__":
