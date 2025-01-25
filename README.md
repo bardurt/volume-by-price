@@ -4,7 +4,15 @@ Python Script to Analyze Stock Data
 This script calculates and visualizes Volume by Price for a given asset, allowing users to identify price levels by volume.
 Additionally, it computes and plots the average monthly percentage change in price over the years.
 
-![Volume By Price](images/preview.png)
+Volume by Price              |  Monthly Bias
+:-------------------------:|:-------------------------:
+![Volume By Price](images/preview_1.png)  |  ![Monthly Bias](images/preview_2.png)
+
+
+Seasonality              |  History
+:-------------------------:|:-------------------------:
+![Seasonality](images/preview_3.png)  | ![History](images/preview_4.png)
+
 
 
 ### Getting Started
