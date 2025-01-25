@@ -7,6 +7,9 @@ from datetime import datetime
 import pandas as pd
 from urllib.parse import quote
 from io import StringIO
+import tkinter as tk
+from tkinter import ttk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 OPEN_WEIGHT = 0.25
 HIGH_WEIGHT = 0.2
@@ -39,10 +42,8 @@ def fetch_data_crypto(symbol):
      
         df['date'] = pd.to_datetime(df['date']).dt.date.astype(str)
         
-        # Normalize the data set
         result = df[['date', 'open', 'high', 'low', 'close', 'Volume USD']]
         
-        # Convert DataFrame to list of lists
         array_format = result.values.tolist()
         
         return array_format
@@ -126,7 +127,6 @@ def calculate_daily_percentage_changes(rows):
             date = datetime.strptime(row[0], "%Y-%m-%d")
             close_price = float(row[4])
             year_key = date.year
-              # Only append if it's not the first or last item
             if year_key != year_end and year_key != year_start:
                 yearly_data[year_key].append((date, close_price))
 
@@ -147,11 +147,35 @@ def calculate_daily_percentage_changes(rows):
 
     return daily_percentage_changes
 
-def plot_results(price_dict, monthly_changes, daily_changes, symbol):
-    fig = plt.figure(figsize=(20, 16))
 
-    # Plot Volume by Price
-    ax1 = plt.subplot2grid((3, 2), (0, 0))
+def get_total_change(rows):
+
+    daily_data = []
+
+    for row in rows:
+        try:
+            date = datetime.strptime(row[0], "%Y-%m-%d")
+            open_price = float(row[1])
+            daily_data.append((date, open_price))
+        except ValueError:
+            continue
+
+    return daily_data
+
+
+def plot_results(price_dict, monthly_changes, daily_changes, total_change, symbol):
+    root = tk.Tk()
+    root.title(f"Charts for {symbol}")
+
+    notebook = ttk.Notebook(root)
+    notebook.pack(fill="both", expand=True)
+
+    tab1 = ttk.Frame(notebook)
+    notebook.add(tab1, text="Volume by Price")
+
+    fig1 = plt.Figure(figsize=(8, 6))
+    ax1 = fig1.add_subplot(111)
+
     prices = list(price_dict.keys())
     weighted_volumes = list(price_dict.values())
     sorted_prices, sorted_volumes = zip(*sorted(zip(prices, weighted_volumes)))
@@ -161,18 +185,35 @@ def plot_results(price_dict, monthly_changes, daily_changes, symbol):
     ax1.set_title('Volume by Price')
     ax1.grid(True)
 
-    # Plot Average Monthly Changes
-    ax2 = plt.subplot2grid((3, 2), (0, 1))
+    canvas1 = FigureCanvasTkAgg(fig1, master=tab1)
+    canvas1.get_tk_widget().pack(fill="both", expand=True)
+    canvas1.draw()
+
+    tab2 = ttk.Frame(notebook)
+    notebook.add(tab2, text="Monthly Bias")
+
+    fig2 = plt.Figure(figsize=(8, 6))
+    ax2 = fig2.add_subplot(111)
+
     months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     changes = [monthly_changes.get(f"{i:02}", 0) for i in range(1, 13)]
 
     ax2.bar(months, changes, color='orange')
-    ax2.set_ylabel('%')
-    ax2.set_title('Average Monthly Change')
+    ax2.set_ylabel('')
+    ax2.set_yticks([]) 
+    ax2.set_title('Monthly Bias')
     ax2.grid(True)
 
-    # Plot Daily Percentage Changes (Averaged)
-    ax3 = plt.subplot2grid((3, 1), (1, 0), rowspan=2)
+    canvas2 = FigureCanvasTkAgg(fig2, master=tab2)
+    canvas2.get_tk_widget().pack(fill="both", expand=True)
+    canvas2.draw()
+
+    tab3 = ttk.Frame(notebook)
+    notebook.add(tab3, text="Seasonality")
+
+    fig3 = plt.Figure(figsize=(8, 6))
+    ax3 = fig3.add_subplot(111)
+
     for interval, changes in daily_changes.items():
         ax3.plot(range(1, len(changes) + 1), changes, label=f'{interval}')
 
@@ -181,9 +222,29 @@ def plot_results(price_dict, monthly_changes, daily_changes, symbol):
     ax3.legend(loc='upper left')
     ax3.grid(True)
 
-    plt.tight_layout(rect=[0, 0, 1, 0.96])
-    plt.suptitle(f'{symbol}', fontsize=18)
-    plt.show()
+    canvas3 = FigureCanvasTkAgg(fig3, master=tab3)
+    canvas3.get_tk_widget().pack(fill="both", expand=True)
+    canvas3.draw()
+
+    tab4 = ttk.Frame(notebook)
+    notebook.add(tab4, text="History")
+
+    fig4 = plt.Figure(figsize=(8, 6))
+    ax4 = fig4.add_subplot(111)
+
+    dates = [entry[0] for entry in total_change]
+    changes = [entry[1] for entry in total_change]
+
+    ax4.plot(dates, changes, color='blue', linewidth=1)
+
+    ax4.grid(True)
+
+    canvas4 = FigureCanvasTkAgg(fig4, master=tab4)
+    canvas4.get_tk_widget().pack(fill="both", expand=True)
+    canvas4.draw()
+
+    root.mainloop()
+
 
 def start(symbol, api_key):
     start_time = time.time()
@@ -205,7 +266,7 @@ def start(symbol, api_key):
 
     print("Preparing Volume By Price")
     price_dict = calculate_volume_by_price(rows)
-    print("Volume By Price ready!")
+    print("Volume By Price ready")
 
     print("Preparing Monthly Bias")
     monthly_changes = calculate_monthly_changes(rows)
@@ -214,11 +275,15 @@ def start(symbol, api_key):
     print("Preparing Seasonality")
     daily_changes = calculate_daily_percentage_changes(rows)
     print("Seasonality ready")
+
+    print("Preparing History")
+    total_change = get_total_change(rows)
+    print("History ready")
     
     end_time = time.time() - start_time
     print(f"Time to process data: {end_time:.2f} seconds")
 
-    plot_results(price_dict, monthly_changes, daily_changes, symbol)
+    plot_results(price_dict, monthly_changes, daily_changes, total_change, symbol)
 
 if __name__ == "__main__":
     import sys
