@@ -17,19 +17,21 @@ Seasonality              |  History
 
 ### Getting Started
 
-This script uses the `requests` and `matplotlib`, and, `pandas`, please make sure to install these librares with `pip` before running the script
+This script uses the `requests`, `matplotlib`, `pandas`, and, `tkinter`, please make sure to install these librares with `pip` before running the script
 
 ```
 pip install requests
 ```
-and
 ```
 pip install matplotlib
 ```
-and
 ```
 pip install pandas
 ```
+```
+pip install python-tk
+```
+
 
 ### How to run
 There are 2 ways to use the script, if only 1 argument is given then the script will assume that the symbol is a crypto currency.
