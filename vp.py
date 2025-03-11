@@ -258,12 +258,26 @@ def plot_results(price_dict, monthly_changes, daily_changes, total_change, symbo
     root.mainloop()
 
 
-def start(symbol, api_key):
+def read_api_key(file_path):
+        try:
+            with open(file_path, 'r') as file:
+                return file.read().strip()
+        except FileNotFoundError:
+            return ""
+
+def start(symbol, asset):
     start_time = time.time()
 
-    if api_key == "":
+    if asset == "c":
+        print("Fetching data for Crypto")
         rows = fetch_data_crypto(symbol)
     else: 
+        print("Fetching data from AlphaVantage")
+        print("reading api key")
+        api_key = read_api_key("avkey.txt")
+        if not api_key:
+            print("Error: API key is missing.")
+            sys.exit(1)
         rows = fetch_data_av(symbol, api_key)
 
     if len(rows) < 3:
@@ -300,13 +314,9 @@ def start(symbol, api_key):
 
 if __name__ == "__main__":
     import sys
-    if len(sys.argv) < 2:
-        print("Error: Requires at least 1 arguments (symbol)")
+    if len(sys.argv) != 3:
+        print("Error: Requires exactly 2 arguments (symbol and api_key)")
     else:
-        if len(sys.argv)== 3:
-            symbol = sys.argv[1]
-            api_key = sys.argv[2]
-            start(symbol, api_key)
-        else:
-            symbol = sys.argv[1]
-            start(symbol, "")
+        symbol = sys.argv[1]
+        asset = sys.argv[2]
+        start(symbol, asset)

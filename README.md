@@ -34,22 +34,22 @@ pip install python-tk
 
 
 ### How to run
-There are 2 ways to use the script, if only 1 argument is given then the script will assume that the symbol is a crypto currency.
+There are 2 ways to use the script, one is for stocks and equities another for crypto. 
+
+To fetch data for stocks you must locate the file ```avkey.txt``` and add a API key that you can get from https://www.alphavantage.co/ for free.
 
 #### 1 Alpha Vantage
-```python vp.py [ASSET NAME] [API KEY FROM ALPHAVANTAGE]```
+```python vp.py [ASSET NAME] a```
 
-The first argument is the symbol to analyze: TSLA, AAPL, MSFT etc. The second argument is the Api Key that you can get from https://www.alphavantage.co/ for free.
+This will make the script fetch data from AlphaVantage with using the API key that is saved in ```avkey.txt```
 
-Example (make sure to use your api key, the one in the sample is not real):
-
- ```python vp.py AAPL 21321asdavvv```
+ ```python vp.py AAPL a```
 
 #### 2 Crypto
-```python vp.py [ASSET NAME] ```
+```python vp.py [ASSET NAME] c```
 
 This will fetch data for a crypto currency from https://www.cryptodatadownload.com
 
 
 
-Example : ```python vp.py BTC```
+Example : ```python vp.py BTC c```
