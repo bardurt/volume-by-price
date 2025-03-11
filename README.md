@@ -41,7 +41,7 @@ To fetch data for stocks you must locate the file ```avkey.txt``` and add a API 
 #### 1 Alpha Vantage
 ```python vp.py [ASSET NAME] a```
 
-This will make the script fetch data from AlphaVantage with using the API key that is saved in ```avkey.txt```
+This will make the script fetch data from AlphaVantage using the API key that is saved in ```avkey.txt```
 
  ```python vp.py AAPL a```
 
