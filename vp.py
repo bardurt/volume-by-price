@@ -273,7 +273,7 @@ def start(symbol, asset):
         rows = fetch_data_crypto(symbol)
     else: 
         print("Fetching data from AlphaVantage")
-        print("reading api key")
+        print("Reading api key")
         api_key = read_api_key("avkey.txt")
         if not api_key:
             print("Error: API key is missing.")
@@ -315,7 +315,7 @@ def start(symbol, asset):
 if __name__ == "__main__":
     import sys
     if len(sys.argv) != 3:
-        print("Error: Requires exactly 2 arguments (symbol and api_key)")
+        print("Error: Requires exactly 2 arguments (symbol and asset type)")
     else:
         symbol = sys.argv[1]
         asset = sys.argv[2]
