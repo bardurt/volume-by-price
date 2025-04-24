@@ -1,55 +1,68 @@
-# volume-by-price
-Python Script to Analyze Stock Data
+# 📈 Volume by Price & Seasonality Analyzer
 
-This script calculates and visualizes Volume by Price for a given asset, allowing users to identify price levels by volume.
-Additionally, it computes and plots the average monthly percentage change in price over the years.
+A Python toolkit to visualize and analyze volume-by-price, monthly trends, and seasonal behavior in financial markets — supporting both crypto and stock assets. Spot patterns, compare years, and uncover potential seasonality using Euclidean Distance and Pearson Correlation.
 
-Volume by Price              |  Monthly Bias
-:-------------------------:|:-------------------------:
-![Volume By Price](images/preview_1.png)  |  ![Monthly Bias](images/preview_2.png)
+> ⚡ Built for personal research, exploration, and financial curiosity.
 
+---
 
-Seasonality              |  History
-:-------------------------:|:-------------------------:
-![Seasonality](images/preview_3.png)  | ![History](images/preview_4.png)
+## ✨ Features
 
+- 🔄 **Support for Crypto & Stocks**  
+  Fetches data from Alpha Vantage (stocks) or CryptoDataDownload (crypto).
 
+- 📊 **Volume by Price Distribution**  
+  Weighted volume aggregation based on Open, High, Low, and Close.
 
-### Getting Started
+- 📅 **Monthly Bias Analysis**  
+  Detects average gains/losses for each month across years.
 
-This script uses the `requests`, `matplotlib`, `pandas`, and, `tkinter`, please make sure to install these librares with `pip` before running the script
+- 📈 **Daily Percentage Change Seasonality**  
+  Calculates and plots daily price performance year-over-year.
+
+- 🧠 **Yearly Pattern Matching**  
+  Finds closest historical year to the current one using:
+  - Euclidean Distance
+  - Pearson Correlation
+
+- 🎨 **Clean Tkinter GUI + Matplotlib Charts**  
+  All visualizations displayed in a lightweight multi-tab window.
+
+---
+
+## 🧪 Installation
+
+Clone this repository:
 
 ```
-pip install requests
-```
-```
-pip install matplotlib
-```
-```
-pip install pandas
-```
-```
-pip install python-tk
+git clone https://github.com/bardurt/volume-by-price.git
+cd volume-by-price
 ```
 
+### Install Dependencies
+```
+pip install -r requirements.txt
+```
 
-### How to run
-There are 2 ways to use the script, one is for stocks and equities another for crypto. 
-
-To fetch data for stocks you must locate the file ```avkey.txt``` and add a API key that you can get from https://www.alphavantage.co/ for free.
-
-#### 1 Alpha Vantage
-```python vp.py [ASSET NAME] a```
-
-This will make the script fetch data from AlphaVantage using the API key that is saved in ```avkey.txt```
-
- ```python vp.py AAPL a```
-
-#### 2 Crypto
-```python vp.py [ASSET NAME] c```
-
-This will fetch data for a crypto currency from https://www.cryptodatadownload.com
+## Usage
+```
+python vp.py <symbol> <asset_type> [method]
+```
 
 
+**Arguments:**
 
-Example : ```python vp.py BTC c```
+symbol: e.g. BTC, AAPL
+
+asset_type: use c for crypto, anything else for stocks
+
+method: optional; euclidean (default) or pearson
+
+**Examples:**
+
+```
+python vp.py BTC c
+
+python vp.py AAPL s pearson
+```
+
