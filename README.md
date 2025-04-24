@@ -71,6 +71,21 @@ python vp.py BTC c
 
 python vp.py AAPL s pearson
 ```
+---
+### 🧠 How It Works
+Fetches historical OHLCV data.
+
+Processes volume distribution with customizable weights.
+
+Aggregates monthly and daily percentage changes.
+
+Compares current year's daily performance with historical years.
+
+Visualizes insights in a Tkinter dashboard.
+
+### 📜 License
+MIT License. Feel free to fork, modify, and experiment!
+
 ## Author
 Built by @bardurt
 For questions, drop an issue or connect on X/Twitter!
