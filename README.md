@@ -29,6 +29,12 @@ A Python toolkit to visualize and analyze volume-by-price, monthly trends, and s
   All visualizations displayed in a lightweight multi-tab window.
 
 ---
+## Preview
+| Volume by Price | Monthly Bias | Closest Match |
+| :---:   | :---: | :---: |
+| ![Demo2](images/preview_1.png) | ![Demo2](images/preview_2.png) | ![Demo2](images/preview_5.png) 
+
+---
 
 ## 🧪 Installation
 
