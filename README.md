@@ -79,6 +79,7 @@ python vp.py AAPL s pearson
 If using this script for stocks, make sure to get a free api key from Alpha Vantage, https://www.alphavantage.co/, and add the key to the file `config/awkey.txt`
 
 ---
+
 ### 🧠 How It Works
 Fetches historical OHLCV data.
 
@@ -90,8 +91,12 @@ Compares current year's daily performance with historical years.
 
 Visualizes insights in a Tkinter dashboard.
 
+---
+
 ### 📜 License
 MIT License. Feel free to fork, modify, and experiment!
+
+---
 
 ## Author
 Built by @bardurt
