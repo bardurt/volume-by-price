@@ -39,7 +39,7 @@ git clone https://github.com/bardurt/volume-by-price.git
 cd volume-by-price
 ```
 
-### Install Dependencies
+Install Dependencies
 ```
 pip install -r requirements.txt
 ```
@@ -52,11 +52,11 @@ python vp.py <symbol> <asset_type> [method]
 
 **Arguments:**
 
-symbol: e.g. BTC, AAPL
+**symbol**: e.g. BTC, AAPL
 
-asset_type: use c for crypto, anything else for stocks
+**asset_type**: use c for crypto, anything else for stocks
 
-method: optional; euclidean (default) or pearson
+**method**: optional; euclidean (default) or pearson
 
 **Examples:**
 
@@ -65,4 +65,6 @@ python vp.py BTC c
 
 python vp.py AAPL s pearson
 ```
-
+## Author
+Built by @bardurt
+For questions, drop an issue or connect on X/Twitter!
