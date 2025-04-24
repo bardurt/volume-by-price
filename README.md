@@ -1,3 +1,5 @@
+![Volume by Price](images//banner.png)
+
 # 📈 Volume by Price & Seasonality Analyzer
 
 A Python toolkit to visualize and analyze volume-by-price, monthly trends, and seasonal behavior in financial markets — supporting both crypto and stock assets. Spot patterns, compare years, and uncover potential seasonality using Euclidean Distance and Pearson Correlation.
